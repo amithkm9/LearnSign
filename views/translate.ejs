@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+    <link rel="stylesheet" href="/css/translate.css">
+</head>
+
+<body>
+    <%- include('./partials/header') %>
+
+    <main id="translate-content">
+        <!-- Hero Section -->
+        <section class="translate-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>🌍 Universal Sign Language Translator</h1>
+                        <p>Break down communication barriers with AI-powered real-time sign language translation</p>
+                        <div class="hero-features">
+                            <div class="feature-badge">
+                                <span class="feature-icon">🚀</span>
+                                <span>Real-time Translation</span>
+                            </div>
+                            <div class="feature-badge">
+                                <span class="feature-icon">🌐</span>
+                                <span>Multi-language Support</span>
+                            </div>
+                            <div class="feature-badge">
+                                <span class="feature-icon">🎯</span>
+                                <span>High Accuracy</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-animation">
+                        <div class="translation-demo">
+                            <div class="demo-sign">🤟</div>
+                            <div class="demo-arrow">→</div>
+                            <div class="demo-languages">
+                                <div class="lang-item active">Hello</div>
+                                <div class="lang-item">नमस्ते</div>
+                                <div class="lang-item">ನಮಸ್ಕಾರ</div>
+                                <div class="lang-item">హలో</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Translator Section -->
+        <section class="translator-main">
+            <div class="container">
+                <div class="translator-layout">
+                    <!-- Camera and Controls -->
+                    <div class="camera-section">
+                        <div class="camera-card">
+                            <div class="camera-header">
+                                <h2>📹 Live Camera Feed</h2>
+                                <div class="camera-status">
+                                    <div class="status-dot"></div>
+                                    <span class="status-text">Ready to Translate</span>
+                                </div>
+                            </div>
+
+                            <div class="webcam-container">
+                                <div class="webcam-frame">
+                                    <video id="webcam" autoplay playsinline></video>
+                                    <canvas id="canvas" style="display: none;"></canvas>
+                                    
+                                    <div class="webcam-overlay">
+                                        <div id="countdown" class="countdown-display"></div>
+                                        <div id="recording-indicator" class="recording-badge">
+                                            <div class="rec-dot"></div>
+                                            <span>Recording</span>
+                                        </div>
+                                        <div class="detection-guide">
+                                            <div class="guide-frame"></div>
+                                            <div class="guide-text">Position your hand here</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="camera-controls">
+                                    <button id="start-camera" class="btn primary-btn">
+                                        <span class="btn-icon">📷</span>
+                                        <span>Start Camera</span>
+                                    </button>
+                                    <button id="start-translate" class="btn success-btn" disabled>
+                                        <span class="btn-icon">🔄</span>
+                                        <span>Start Translation</span>
+                                    </button>
+                                    <button id="stop-translate" class="btn danger-btn" style="display: none;">
+                                        <span class="btn-icon">⏹️</span>
+                                        <span>Stop</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Available Signs Guide -->
+                            <div class="signs-guide">
+                                <h3>🤟 Supported Signs</h3>
+                                <div class="signs-grid">
+                                    <div class="sign-item">
+                                        <div class="sign-visual">👋</div>
+                                        <div class="sign-info">
+                                            <span class="sign-name">Hello</span>
+                                            <span class="sign-desc">Greeting gesture</span>
+                                        </div>
+                                    </div>
+                                    <div class="sign-item">
+                                        <div class="sign-visual">🙏</div>
+                                        <div class="sign-info">
+                                            <span class="sign-name">Thanks</span>
+                                            <span class="sign-desc">Gratitude expression</span>
+                                        </div>
+                                    </div>
+                                    <div class="sign-item">
+                                        <div class="sign-visual">👍</div>
+                                        <div class="sign-info">
+                                            <span class="sign-name">Yes</span>
+                                            <span class="sign-desc">Affirmation gesture</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Translation Results -->
+                    <div class="results-section">
+                        <div class="results-card">
+                            <div class="results-header">
+                                <h2>🌐 Translation Results</h2>
+                                <div class="language-selector">
+                                    <label for="target-language">Translate to:</label>
+                                    <select id="target-language" class="language-dropdown">
+                                        <option value="en">🇺🇸 English</option>
+                                        <option value="hi">🇮🇳 Hindi</option>
+                                        <option value="kn">🇮🇳 Kannada</option>
+                                        <option value="te">🇮🇳 Telugu</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="detection-panel">
+                                <div class="detection-card">
+                                    <h3>🔍 Detected Sign</h3>
+                                    <div class="detection-result">
+                                        <div id="detected-sign" class="gesture-display">
+                                            <span class="gesture-text">No sign detected</span>
+                                        </div>
+                                        <div class="confidence-section">
+                                            <div class="confidence-label">Confidence Level</div>
+                                            <div class="confidence-bar">
+                                                <div id="confidence-level" class="confidence-fill" style="width: 0%"></div>
+                                            </div>
+                                            <div class="confidence-text">
+                                                <span id="confidence-text">0%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="translation-card">
+                                    <h3>🗣️ Translation</h3>
+                                    <div class="translation-display">
+                                        <div id="translation-result" class="translation-output">
+                                            Waiting for sign detection...
+                                        </div>
+                                        <div class="translation-actions">
+                                            <button id="speak-translation" class="btn icon-btn" disabled>
+                                                <span class="btn-icon">🔊</span>
+                                                <span>Speak</span>
+                                            </button>
+                                            <button id="copy-translation" class="btn icon-btn" disabled>
+                                                <span class="btn-icon">📋</span>
+                                                <span>Copy</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Translation History -->
+                            <div class="history-section">
+                                <h3>📚 Translation History</h3>
+                                <div id="history-list" class="history-list">
+                                    <div class="history-empty">
+                                        <span class="empty-icon">📝</span>
+                                        <span class="empty-text">Your translations will appear here</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips and Information -->
+                <div class="info-section">
+                    <div class="tips-card">
+                        <h2>💡 Tips for Best Results</h2>
+                        <div class="tips-grid">
+                            <div class="tip-item">
+                                <div class="tip-icon">💡</div>
+                                <div class="tip-content">
+                                    <h4>Good Lighting</h4>
+                                    <p>Ensure your hands are well-lit and clearly visible</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-icon">🎯</div>
+                                <div class="tip-content">
+                                    <h4>Clear Positioning</h4>
+                                    <p>Keep your hands within the camera frame</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-icon">⏱️</div>
+                                <div class="tip-content">
+                                    <h4>Hold the Sign</h4>
+                                    <p>Maintain the gesture for 2-3 seconds</p>
+                                </div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-icon">🌟</div>
+                                <div class="tip-content">
+                                    <h4>Practice Makes Perfect</h4>
+                                    <p>Try multiple times for better accuracy</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <%- include('./partials/footer') %>
+    <script src="/js/translate.js"></script>
+</body>
+
+</html>
